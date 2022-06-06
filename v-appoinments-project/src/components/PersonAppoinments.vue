@@ -1,0 +1,63 @@
+<template>
+  <div class="person">
+    <h1>{{ personName }}</h1>
+    <div v-for="(appItems, key) in appoinments" v-bind:key="key">
+      <h3>{{key}}</h3>
+      <div class="appoinment-data" v-for="(appoinment, keyA) in appItems" v-bind:key="keyA">
+        <div class="app-title">
+          <p class="hour">{{keyA}}</p>
+          <p class="patient">{{appoinment.patient}}</p>
+        </div>
+        <p class="notes">{{appoinment.notes}}</p>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+export default {
+  name: 'PersonAppoinments',
+  props: {
+    personName: String,
+    appoinments: Object
+  }
+}
+</script>
+
+<!-- Add "scoped" attribute to limit CSS to this component only -->
+<style scoped>
+.person {
+  max-width: 85%;
+  margin: 1rem auto;
+}
+h3 {
+  margin: 40px 0 0;
+  text-align: left;
+}
+.appoinment-data {
+  max-width: 89%;
+  margin:0.75rem auto;
+  padding: 1.25rem 0.65rem;
+  border: solid 1px rgb(230, 230, 230);
+  box-shadow: 0.55rem 0.3rem rgb(189, 189, 189);
+}
+.app-title {
+  border-bottom: solid 1px rgb(235, 235, 235);
+  display: flex;
+}
+.hour {
+  background-color: rgb(242, 242, 242);
+  border: solid 1px rgb(242, 242, 242);
+  border-radius: 0.8rem;
+  padding: 0.35rem 1rem;
+}
+.patient {
+  margin-left: 6.25rem;
+  flex: 1;
+  font-weight: bold;
+}
+.notes {
+  text-align: left;
+  padding: 2% 2% 3% 6%;
+}
+</style>
