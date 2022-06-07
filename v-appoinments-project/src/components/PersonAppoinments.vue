@@ -6,6 +6,12 @@
       <div class="appoinment-data" v-for="(appoinment, keyA) in appItems" v-bind:key="keyA" v-show="showThisAppoinment(key)">
         <div class="app-title">
           <p class="hour"><i class="fa fa-clock"></i> {{keyA}}</p>
+          <p class="state">
+            <i class="fa fa-check-square" v-if="appoinment.state=='done'" style="color:green;" :title="appoinment.state"></i>
+            <i class="fa fa-exclamation-triangle" v-else-if="appoinment.state=='cancelled'" style="color:red;" :title="appoinment.state"></i>
+            <i class="fa fa-hourglass-half" v-else-if="appoinment.state=='scheduled'" style="color:orange;" :title="appoinment.state"></i>
+            <i class="fa fa-comment" v-else-if="appoinment.state=='running'" style="color:blue;" :title="appoinment.state"></i>
+          </p>
           <p class="patient"><i class="fa fa-user-circle"></i> {{appoinment.patient}}</p>
         </div>
         <p class="notes"><span><i class="fa fa-file"></i></span> {{appoinment.notes}}</p>
@@ -74,6 +80,9 @@ export default {
   border: solid 1px rgb(242, 242, 242);
   border-radius: 0.8rem;
   padding: 0.35rem 1rem;
+}
+.state {
+  padding: 0.4rem 1rem;
 }
 .patient {
   margin-left: 6.25rem;
