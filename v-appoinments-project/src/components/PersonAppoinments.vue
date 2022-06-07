@@ -2,8 +2,8 @@
   <div class="person">
     <h1>{{ personName }}</h1>
     <div v-for="(appItems, key) in appoinments" v-bind:key="key">
-      <h3 class="day-head"><i class="fa fa-calendar"></i> {{key}}</h3>
-      <div class="appoinment-data" v-for="(appoinment, keyA) in appItems" v-bind:key="keyA">
+      <h3 class="day-head" @click="showDay(key)"><i class="fa fa-calendar"></i> {{key}}</h3>
+      <div class="appoinment-data" v-for="(appoinment, keyA) in appItems" v-bind:key="keyA" v-show="showThisAppoinment(key)">
         <div class="app-title">
           <p class="hour"><i class="fa fa-clock"></i> {{keyA}}</p>
           <p class="patient"><i class="fa fa-user-circle"></i> {{appoinment.patient}}</p>
@@ -19,7 +19,24 @@ export default {
   name: 'PersonAppoinments',
   props: {
     personName: String,
-    appoinments: Object
+    appoinments: Object,
+  },
+  data() {
+    return {
+      showingDay: "--"
+    }
+  },
+  methods: {
+    showDay(activeDay){
+      if (this.showingDay == activeDay) {
+        this.showingDay = '--';
+      } else{
+        this.showingDay = activeDay;
+      }
+    },
+    showThisAppoinment(myDate){
+      return myDate == this.showingDay;
+    }
   }
 }
 </script>
