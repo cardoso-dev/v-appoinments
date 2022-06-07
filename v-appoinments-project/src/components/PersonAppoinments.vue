@@ -2,13 +2,13 @@
   <div class="person">
     <h1>{{ personName }}</h1>
     <div v-for="(appItems, key) in appoinments" v-bind:key="key">
-      <h3>{{key}}</h3>
+      <h3 class="day-head"><i class="fa fa-calendar"></i> {{key}}</h3>
       <div class="appoinment-data" v-for="(appoinment, keyA) in appItems" v-bind:key="keyA">
         <div class="app-title">
-          <p class="hour">{{keyA}}</p>
-          <p class="patient">{{appoinment.patient}}</p>
+          <p class="hour"><i class="fa fa-clock"></i> {{keyA}}</p>
+          <p class="patient"><i class="fa fa-user-circle"></i> {{appoinment.patient}}</p>
         </div>
-        <p class="notes">{{appoinment.notes}}</p>
+        <p class="notes"><span><i class="fa fa-file"></i></span> {{appoinment.notes}}</p>
       </div>
     </div>
   </div>
@@ -30,9 +30,16 @@ export default {
   max-width: 85%;
   margin: 1rem auto;
 }
-h3 {
+.day-head {
   margin: 40px 0 0;
   text-align: left;
+  cursor: pointer;
+  padding: 0.35rem 2rem;
+}
+.day-head:hover {
+  padding-left: 1rem;
+  border: solid 1px rgb(239, 239, 239);
+  box-shadow: 0.27rem 0.15rem rgb(209, 209, 209);
 }
 .appoinment-data {
   max-width: 89%;
@@ -59,5 +66,9 @@ h3 {
 .notes {
   text-align: left;
   padding: 2% 2% 3% 6%;
+}
+.notes span {
+  float: left;
+  margin: 0.15rem 2rem 1rem 0;
 }
 </style>
