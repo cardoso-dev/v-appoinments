@@ -1,10 +1,11 @@
 # v-appoinments
 
-Single appoinment application frontend for practicing vue js, the project was created using vue cli
+## About
 
-To start the idea is just create a view with very basic components showing an schedule with appoinments, like in the next draft image:
+Single appoinment application frontend for practicing vue js, the project was created using vue cli version 5.0.4
 
-![Draft 1](assets/draft1.png "Draft 1")
+
+## Install
 
 After cloning install dependencies
 
@@ -19,3 +20,12 @@ To run the server
 $ cd v-appoinments-project
 $ npm run serve
 ```
+
+## Design
+
+Imagine you are a dentist, medical or therapist and you would like to have an app to easily check your appoinments.
+
+To start the idea is just create a view with very basic components showing an schedule with appoinments, like in the next draft image:
+
+![Draft 1](assets/draft1.png "Draft 1")
+
