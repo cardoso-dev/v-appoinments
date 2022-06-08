@@ -21,6 +21,9 @@ $ cd v-appoinments-project
 $ npm run serve
 ```
 
+### Third party components
+- [vue-time-date-range-picker](https://www.npmjs.com/package/vue-time-date-range-picker#demo)
+
 ## Design
 
 Imagine you are a dentist, medical or therapist and you would like to have an app to easily check your appoinments.

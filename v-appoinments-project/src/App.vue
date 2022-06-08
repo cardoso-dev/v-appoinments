@@ -2,6 +2,7 @@
   <PersonAppoinments
     personName="Dentist Jhon Doe"
     :appoinments=dataAppoiments
+    :period=period
     />
 </template>
 
@@ -15,9 +16,32 @@ export default {
     PersonAppoinments
   },
   data(){
+    let today = new Date();
     return {
-      dataAppoiments: dataJson
+      dataAppoiments: false,
+      period: today.toLocaleString('en-us', { month: 'short' }) + "-" +
+        today.getUTCDate().toString().padStart(2, '0')
     }
+  },
+  methods: {
+    searchByDate(s, e) {
+      let key;
+      let applyData = {};
+      for (let includingDay=s.getUTCDate(); includingDay<=e.getUTCDate(); includingDay++) {
+        key = s.toLocaleString('en-us', { month: 'short' }) + "-" + includingDay.toString().padStart(2, '0');
+        if (dataJson[key]) {
+          applyData[key] = dataJson[key];
+        }
+      }
+      this.dataAppoiments = applyData;
+      this.period = s.toLocaleString('en-us', { month: 'short' }) + "-" +
+        s.getUTCDate().toString().padStart(2, '0') + " : " +
+        e.toLocaleString('en-us', { month: 'short' }) + "-" +
+        e.getUTCDate().toString().padStart(2, '0');
+    }
+  },
+  beforeMount() {
+    this.searchByDate(new Date(), new Date());
   }
 }
 </script>
