@@ -23,6 +23,7 @@ $ npm run serve
 
 ### Third party components
 - [vue-time-date-range-picker](https://www.npmjs.com/package/vue-time-date-range-picker#demo)
+- [VueCtkDateTimePicker](https://www.npmjs.com/package/vue-ctk-date-time-picker)
 
 ## Design
 
