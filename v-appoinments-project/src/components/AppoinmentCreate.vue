@@ -38,8 +38,13 @@ export default {
                 this.invalidDataMessage = true;
             } else {
                 this.invalidDataMessage = false;
-                console.log("ready to save");
+                this.$emit("create-new-appoinment", [dateString, timeString, this.patient, this.notes]);
             }
+        },
+        cleanForm() {
+            this.chosenDateTime = '';
+            this.patient = '';
+            this.notes = '';
         }
     }
 }

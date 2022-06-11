@@ -3,6 +3,8 @@
     personName="Dentist Jhon Doe"
     :appoinments=dataAppoiments
     :period=period
+    @create-new-appoinment="createNewAppoinment"
+    ref="personListAppoinments"
     />
 </template>
 
@@ -38,6 +40,24 @@ export default {
         s.getUTCDate().toString().padStart(2, '0') + " : " +
         e.toLocaleString('en-us', { month: 'short' }) + "-" +
         e.getUTCDate().toString().padStart(2, '0');
+    },
+    createNewAppoinment(data) {
+      if (dataJson[data[0]]) {
+        dataJson[data[0]][data[1]] = {
+          "patient": data[2],
+          "notes": data[3],
+          "state": "scheduled"
+        }
+      } else {
+        dataJson[data[0]] = {
+          [data[1]]: {
+            "patient": data[2],
+            "notes": data[3],
+            "state": "scheduled"
+          }
+        }
+      }
+      this.$refs.personListAppoinments.afterCreatedAppoinment();
     }
   },
   beforeMount() {

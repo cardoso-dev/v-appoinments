@@ -9,7 +9,7 @@
       </button>
     </div>
     <div v-if="!Object.keys(appoinments).length">No appoinments in period: {{period}} </div>
-    <AppoinmentCreate v-show="showCreateForm"/>
+    <AppoinmentCreate v-show="showCreateForm" v-bind="$attrs" ref="formCreate" />
     <div v-for="(appItems, key) in appoinments" v-bind:key="key">
       <AppoinmentDate 
         :date=key
@@ -43,6 +43,10 @@ export default {
     }
   },
   methods: {
+    afterCreatedAppoinment() {
+      this.showCreateForm = false;
+      this.$refs.formCreate.cleanForm();
+    }
   }
 }
 </script>
