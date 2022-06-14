@@ -62,15 +62,11 @@ export default {
       this.$refs.personListAppoinments.afterCreatedAppoinment();
     },
     updateAppoinment(data) {
-      dataJson[data[0]][data[1]] = {
-        "patient": data[2],
-        "notes": data[3]
-      }
+      dataJson[data[0]][data[1]]["patient"] = data[2];
+      dataJson[data[0]][data[1]]["notes"] = data[3];
     },
     updateAppoinmentState(data) {
-      dataJson[data[0]][data[1]] = {
-        "state": data[2]
-      }
+      dataJson[data[0]][data[1]]["state"] = data[2];
     }
   },
   beforeMount() {
