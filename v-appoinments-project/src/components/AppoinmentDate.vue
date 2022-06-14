@@ -7,7 +7,8 @@ Component to show a list of appoinment cards belonging to a single day
       <h3 class="day-head" @click="showDay(date)"><i class="fa fa-calendar"></i> {{date}}</h3>
       <div class="appoinments-by-day" v-for="(appoinment, hour, index) in appoinments"
             v-bind:key="index" v-show="showThisAppoinment(date)">
-        <AppoinmentCard
+        <AppoinmentCard v-bind="$attrs"
+           :date=date
           :hour=hour
           :patient=appoinment.patient
           :notes=appoinment.notes

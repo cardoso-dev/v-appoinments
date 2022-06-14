@@ -4,6 +4,7 @@
     :appoinments=dataAppoiments
     :period=period
     @create-new-appoinment="createNewAppoinment"
+    @update-appoinment="updateAppoinment"
     ref="personListAppoinments"
     />
 </template>
@@ -58,6 +59,12 @@ export default {
         }
       }
       this.$refs.personListAppoinments.afterCreatedAppoinment();
+    },
+    updateAppoinment(data) {
+      dataJson[data[0]][data[1]] = {
+        "patient": data[2],
+        "notes": data[3],
+      }
     }
   },
   beforeMount() {

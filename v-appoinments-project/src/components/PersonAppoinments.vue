@@ -11,7 +11,7 @@
     <div v-if="!Object.keys(appoinments).length">No appoinments in period: {{period}} </div>
     <AppoinmentCreate v-show="showCreateForm" v-bind="$attrs" ref="formCreate" />
     <div v-for="(appItems, key) in appoinments" v-bind:key="key">
-      <AppoinmentDate 
+      <AppoinmentDate v-bind="$attrs"
         :date=key
         :appoinments=appItems 
       />

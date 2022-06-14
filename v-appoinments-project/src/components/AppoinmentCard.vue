@@ -14,9 +14,19 @@ Component card to show a single appoinment with data:
             <i class="fa fa-hourglass-half" v-else-if="state=='scheduled'" style="color:orange;" :title="state"></i>
             <i class="fa fa-comment" v-else-if="state=='running'" style="color:blue;" :title="state"></i>
             </p>
-            <p class="patient"><i class="fa fa-user-circle"></i> {{patient}}</p>
+            <p class="patient" v-if="isNameNotesEditing"><i class="fa fa-user-circle"></i>
+              <input name="patient" type="text" v-model="dpatient" />
+            </p>
+            <p class="patient" v-else><i class="fa fa-user-circle"></i> {{dpatient}}</p>
+            <i class="fa fa-save" v-if="isNameNotesEditing"
+               title="Save changes"
+               @click="updateNameNotes"></i>
+            <i class="fa fa-edit" v-else
+               title="Edit name or notes"
+               @click="isNameNotesEditing = !isNameNotesEditing"></i>
         </div>
-        <p class="notes"><span><i class="fa fa-file"></i></span> {{notes}}</p>
+        <p class="notes" v-if="isNameNotesEditing"><i class="fa fa-file"></i><textarea v-model="dnotes"></textarea> </p>
+        <p class="notes" v-else><span><i class="fa fa-file"></i></span> {{dnotes}}</p>
     </div>
 </template>
 
@@ -24,10 +34,24 @@ Component card to show a single appoinment with data:
 export default {
     name: "AppoinmentCard",
     props: {
+        date: String,
         hour: String,
         patient: String,
         notes: String,
         state: String
+    },
+    data() {
+      return {
+        isNameNotesEditing: false,
+        dpatient: this.patient,
+        dnotes: this.notes
+      }
+    },
+    methods: {
+      updateNameNotes() {
+        this.isNameNotesEditing = false;
+        this.$emit("update-appoinment", [this.date, this.hour, this.dpatient, this.dnotes]);
+      }
     }
 }
 </script>
@@ -65,5 +89,9 @@ export default {
 .notes span {
   float: left;
   margin: 0.15rem 2rem 1rem 0;
+}
+textarea {
+  width: 91%;
+  margin: 1rem 2%;
 }
 </style>
