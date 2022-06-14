@@ -5,6 +5,7 @@
     :period=period
     @create-new-appoinment="createNewAppoinment"
     @update-appoinment="updateAppoinment"
+    @update-appoinment-state="updateAppoinmentState"
     ref="personListAppoinments"
     />
 </template>
@@ -63,7 +64,12 @@ export default {
     updateAppoinment(data) {
       dataJson[data[0]][data[1]] = {
         "patient": data[2],
-        "notes": data[3],
+        "notes": data[3]
+      }
+    },
+    updateAppoinmentState(data) {
+      dataJson[data[0]][data[1]] = {
+        "state": data[2]
       }
     }
   },

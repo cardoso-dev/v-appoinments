@@ -8,11 +8,17 @@ Component card to show a single appoinment with data:
     <div class="appoinment-card">
         <div class="app-title">
             <p class="hour"><i class="fa fa-clock"></i> {{hour}}</p>
-            <p class="state">
-            <i class="fa fa-check-square" v-if="state=='done'" style="color:green;" :title="state"></i>
-            <i class="fa fa-exclamation-triangle" v-else-if="state=='cancelled'" style="color:red;" :title="state"></i>
-            <i class="fa fa-hourglass-half" v-else-if="state=='scheduled'" style="color:orange;" :title="state"></i>
-            <i class="fa fa-comment" v-else-if="state=='running'" style="color:blue;" :title="state"></i>
+            <select v-if="isChangingState" class="state" v-model="dstate" @click="updateState">
+              <option style="color:green;" value="done"> Done </option>
+              <option style="color:red;" value="cancelled"> Cancelled </option>
+              <option style="color:orange;" value="scheduled"> Scheduled </option>
+              <option style="color:blue;" value="running"> Running </option>
+            </select>
+            <p class="state" @click="isChangingState = !isChangingState" v-else>
+              <i class="fa fa-check-square" v-if="dstate=='done'" style="color:green;" :title="dstate"></i>
+              <i class="fa fa-exclamation-triangle" v-else-if="dstate=='cancelled'" style="color:red;" :title="dstate"></i>
+              <i class="fa fa-hourglass-half" v-else-if="dstate=='scheduled'" style="color:orange;" :title="dstate"></i>
+              <i class="fa fa-comment" v-else-if="dstate=='running'" style="color:blue;" :title="dstate"></i>
             </p>
             <p class="patient" v-if="isNameNotesEditing"><i class="fa fa-user-circle"></i>
               <input name="patient" type="text" v-model="dpatient" />
@@ -43,14 +49,20 @@ export default {
     data() {
       return {
         isNameNotesEditing: false,
+        isChangingState: false,
         dpatient: this.patient,
-        dnotes: this.notes
+        dnotes: this.notes,
+        dstate: this.state
       }
     },
     methods: {
       updateNameNotes() {
         this.isNameNotesEditing = false;
         this.$emit("update-appoinment", [this.date, this.hour, this.dpatient, this.dnotes]);
+      },
+      updateState() {
+        this.isChangingState = false;
+        this.$emit("update-appoinment-state", [this.date, this.hour, this.dstate]);
       }
     }
 }
