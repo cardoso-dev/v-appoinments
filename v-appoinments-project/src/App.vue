@@ -6,6 +6,7 @@
     @create-new-appoinment="createNewAppoinment"
     @update-appoinment="updateAppoinment"
     @update-appoinment-state="updateAppoinmentState"
+    @erase-appoinment="eraseAppoinment"
     ref="personListAppoinments"
     />
 </template>
@@ -67,6 +68,9 @@ export default {
     },
     updateAppoinmentState(data) {
       dataJson[data[0]][data[1]]["state"] = data[2];
+    },
+    eraseAppoinment(data) {
+      delete dataJson[data[0]][data[1]];
     }
   },
   beforeMount() {

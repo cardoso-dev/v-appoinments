@@ -5,7 +5,7 @@ Component card to show a single appoinment with data:
   - state  (string)
 
 <template>
-    <div class="appoinment-card">
+    <div class="appoinment-card" v-show="isActive">
         <div class="app-title">
             <p class="hour"><i class="fa fa-clock"></i> {{hour}}</p>
             <select v-if="isChangingState" class="state" v-model="dstate" @click="updateState">
@@ -30,6 +30,9 @@ Component card to show a single appoinment with data:
             <i class="fa fa-edit" v-else
                title="Edit name or notes"
                @click="isNameNotesEditing = !isNameNotesEditing"></i>
+            <i class="fa fa-trash"
+               title="Erase appoinment"
+               @click="eraseAppoinment"></i>
         </div>
         <p class="notes" v-if="isNameNotesEditing"><i class="fa fa-file"></i><textarea v-model="dnotes"></textarea> </p>
         <p class="notes" v-else><span><i class="fa fa-file"></i></span> {{dnotes}}</p>
@@ -48,6 +51,7 @@ export default {
     },
     data() {
       return {
+        isActive: true,
         isNameNotesEditing: false,
         isChangingState: false,
         dpatient: this.patient,
@@ -63,6 +67,10 @@ export default {
       updateState() {
         this.isChangingState = false;
         this.$emit("update-appoinment-state", [this.date, this.hour, this.dstate]);
+      },
+      eraseAppoinment() {
+        this.$emit("erase-appoinment", [this.date, this.hour]);
+        this.isActive = false;  // hide itself
       }
     }
 }
