@@ -8,6 +8,9 @@
         title="Create appoinment">
       </button>
     </div>
+    <div class="searcher">
+      <p>Search by person:</p> <PersonSearch v-bind="$attrs" />
+    </div>
     <div v-if="!Object.keys(appoinments).length">No appoinments in period: {{period}} </div>
     <AppoinmentCreate v-show="showCreateForm" v-bind="$attrs" ref="formCreate" />
     <div v-for="(appItems, key) in appoinments" v-bind:key="key">
@@ -24,14 +27,16 @@ import AppoinmentDate from './AppoinmentDate.vue';
 import AppoinmentCreate from './AppoinmentCreate.vue';
 import DatePicker from 'vue-time-date-range-picker/dist/vdprDatePicker';
 import 'vue-time-date-range-picker/dist/vdprDatePicker.min.css';
+import PersonSearch from './PersonSearch.vue';
 
 export default {
   name: 'PersonAppoinments',
   components: {
     AppoinmentDate,
     AppoinmentCreate,
-    DatePicker
-  },
+    DatePicker,
+    PersonSearch
+},
   props: {
     personName: String,
     appoinments: Object,

@@ -7,11 +7,14 @@
     @update-appoinment="updateAppoinment"
     @update-appoinment-state="updateAppoinmentState"
     @erase-appoinment="eraseAppoinment"
+    @search-by-name="searchByName"
+    @load-by-name="loadByName"
     ref="personListAppoinments"
     />
 </template>
 
 <script>
+import { computed } from '@vue/reactivity';
 import PersonAppoinments from './components/PersonAppoinments.vue';
 import dataJson from './data/data.json';
 
@@ -25,7 +28,8 @@ export default {
     return {
       dataAppoiments: false,
       period: today.toLocaleString('en-us', { month: 'short' }) + "-" +
-        today.getUTCDate().toString().padStart(2, '0')
+        today.getUTCDate().toString().padStart(2, '0'),
+      foundNames: []
     }
   },
   methods: {
@@ -71,6 +75,44 @@ export default {
     },
     eraseAppoinment(data) {
       delete dataJson[data[0]][data[1]];
+    },
+    searchByName(name){
+      let options = [];
+      let day;
+      let hour;
+
+      for (day in dataJson){
+        for (hour in dataJson[day]){
+          if(dataJson[day][hour]['patient'].toLowerCase().includes(name.toLowerCase())){
+            if (options.indexOf(dataJson[day][hour]['patient']) === -1) {
+              options.push(dataJson[day][hour]['patient']);
+            }
+          }
+        }
+      }
+      this.foundNames = options;
+    },
+    loadByName(name){
+      let applyData = {};
+      let day;
+      let hour;
+
+      for (day in dataJson){
+        for (hour in dataJson[day]){
+          if(dataJson[day][hour]['patient'].toLowerCase() == name.toLowerCase()) {
+            if (!applyData[day]) {
+              applyData[day] = {};
+            }
+            applyData[day][hour] = dataJson[day][hour];
+          }
+        }
+      }
+      this.dataAppoiments = applyData;
+    }
+  },
+  provide() {
+    return {
+      foundsByName: computed(() => this.foundNames)
     }
   },
   beforeMount() {
