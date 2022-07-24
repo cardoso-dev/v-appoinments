@@ -16,7 +16,7 @@
 <script>
 import { computed } from '@vue/reactivity';
 import PersonAppoinments from './components/PersonAppoinments.vue';
-import dataJson from './data/data.json';
+import fileSourceJson from './data/data.json';
 
 export default {
   name: 'App',
@@ -29,7 +29,8 @@ export default {
       dataAppoiments: false,
       period: today.toLocaleString('en-us', { month: 'short' }) + "-" +
         today.getUTCDate().toString().padStart(2, '0'),
-      foundNames: []
+      foundNames: [],
+      dataJson: {}
     }
   },
   methods: {
@@ -38,8 +39,8 @@ export default {
       let applyData = {};
       for (let includingDay=s.getUTCDate(); includingDay<=e.getUTCDate(); includingDay++) {
         key = s.toLocaleString('en-us', { month: 'short' }) + "-" + includingDay.toString().padStart(2, '0');
-        if (dataJson[key]) {
-          applyData[key] = dataJson[key];
+        if (this.dataJson[key]) {
+          applyData[key] = this.dataJson[key];
         }
       }
       this.dataAppoiments = applyData;
@@ -49,14 +50,14 @@ export default {
         e.getUTCDate().toString().padStart(2, '0');
     },
     createNewAppoinment(data) {
-      if (dataJson[data[0]]) {
-        dataJson[data[0]][data[1]] = {
+      if (this.dataJson[data[0]]) {
+        this.dataJson[data[0]][data[1]] = {
           "patient": data[2],
           "notes": data[3],
           "state": "scheduled"
         }
       } else {
-        dataJson[data[0]] = {
+        this.dataJson[data[0]] = {
           [data[1]]: {
             "patient": data[2],
             "notes": data[3],
@@ -64,28 +65,32 @@ export default {
           }
         }
       }
+      localStorage.setItem('v_appoinments', JSON.stringify(this.dataJson));
       this.$refs.personListAppoinments.afterCreatedAppoinment();
     },
     updateAppoinment(data) {
-      dataJson[data[0]][data[1]]["patient"] = data[2];
-      dataJson[data[0]][data[1]]["notes"] = data[3];
+      this.dataJson[data[0]][data[1]]["patient"] = data[2];
+      this.dataJson[data[0]][data[1]]["notes"] = data[3];
+      localStorage.setItem('v_appoinments', JSON.stringify(this.dataJson));
     },
     updateAppoinmentState(data) {
-      dataJson[data[0]][data[1]]["state"] = data[2];
+      this.dataJson[data[0]][data[1]]["state"] = data[2];
+      localStorage.setItem('v_appoinments', JSON.stringify(this.dataJson));
     },
     eraseAppoinment(data) {
-      delete dataJson[data[0]][data[1]];
+      delete this.dataJson[data[0]][data[1]];
+      localStorage.setItem('v_appoinments', JSON.stringify(this.dataJson));
     },
     searchByName(name){
       let options = [];
       let day;
       let hour;
 
-      for (day in dataJson){
-        for (hour in dataJson[day]){
-          if(dataJson[day][hour]['patient'].toLowerCase().includes(name.toLowerCase())){
-            if (options.indexOf(dataJson[day][hour]['patient']) === -1) {
-              options.push(dataJson[day][hour]['patient']);
+      for (day in this.dataJson){
+        for (hour in this.dataJson[day]){
+          if(this.dataJson[day][hour]['patient'].toLowerCase().includes(name.toLowerCase())){
+            if (options.indexOf(this.dataJson[day][hour]['patient']) === -1) {
+              options.push(this.dataJson[day][hour]['patient']);
             }
           }
         }
@@ -97,13 +102,13 @@ export default {
       let day;
       let hour;
 
-      for (day in dataJson){
-        for (hour in dataJson[day]){
-          if(dataJson[day][hour]['patient'].toLowerCase() == name.toLowerCase()) {
+      for (day in this.dataJson){
+        for (hour in this.dataJson[day]){
+          if(this.dataJson[day][hour]['patient'].toLowerCase() == name.toLowerCase()) {
             if (!applyData[day]) {
               applyData[day] = {};
             }
-            applyData[day][hour] = dataJson[day][hour];
+            applyData[day][hour] = this.dataJson[day][hour];
           }
         }
       }
@@ -116,6 +121,13 @@ export default {
     }
   },
   beforeMount() {
+    let localStData = localStorage.getItem('v_appoinments');
+    if (localStData) {
+      this.dataJson = JSON.parse(localStData)
+    } else {
+      this.dataJson = fileSourceJson;
+      localStorage.setItem('v_appoinments', JSON.stringify(this.dataJson));
+    }
     this.searchByDate(new Date(), new Date());
   }
 }
